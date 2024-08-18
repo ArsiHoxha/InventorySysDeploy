@@ -115,7 +115,7 @@ app.get('/auth/google',
   
     if (failureMessage === 'User is pending approval') {
       res.redirect('https://inventorysysdeploy-1-client2.onrender.com/pending'); // Redirect to pending page
-    } else if (failureMessage === 'User is blocked') {
+    } else if (failureMessage === 'User is b  ked') {
       res.redirect('https://inventorysysdeploy-1-client2.onrender.com/blocked'); // Redirect to blocked page
     } else {
       res.redirect(`https://inventorysysdeploy-1-client2.onrender.com/login?error=${encodeURIComponent(failureMessage)}`);

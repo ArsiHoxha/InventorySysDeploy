@@ -2,10 +2,12 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const User = require('./schemas/UserAuth'); // Path to your User model
 require('dotenv').config();
-
+const GOOGLE_CLIENT_ID = "274821330011-r9p49elo3hd2kq9uhjl4g0lv6s70a4pv.apps.googleusercontent.com"
+const GOOGLE_CLIENT_SECRET= "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"
+const MONGO_URI = 'mongodb+srv://arsihoxha23:Arsi159753@cluster0.60zdjwh.mongodb.net/'
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
     callbackURL: "https://inventorysysdeploy.onrender.com/auth/google/callback",
     passReqToCallback: true
   },
