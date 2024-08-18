@@ -15,6 +15,9 @@ const UserOrAdmin = () => {
                 if (data) {
                     setUser(data);
                     console.log('User data:', data);
+                } else {
+                    // If data is null, redirect to home
+                    window.location.href = '/';
                 }
             })
             .catch(error => {
