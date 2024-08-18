@@ -21,14 +21,6 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-// Fallback for React Router
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
-
 
 function isLogedIn(req, res, next) {
     req.user ? next() :res.sendStatus(401)
@@ -123,7 +115,7 @@ app.get('/auth/google',
   
     if (failureMessage === 'User is pending approval') {
       res.redirect('https://inventorysysdeploy-1-client2.onrender.com/pending'); // Redirect to pending page
-    } else if (failureMessage === 'User is b  ked') {
+    } else if (failureMessage === 'User is blocked') {
       res.redirect('https://inventorysysdeploy-1-client2.onrender.com/blocked'); // Redirect to blocked page
     } else {
       res.redirect(`https://inventorysysdeploy-1-client2.onrender.com/login?error=${encodeURIComponent(failureMessage)}`);
