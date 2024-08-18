@@ -54,7 +54,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://inventory-sys-deploy.vercel.app/',
   credentials: true
 }));
 
