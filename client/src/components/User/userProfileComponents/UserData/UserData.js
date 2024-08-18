@@ -8,7 +8,7 @@ const ProductTable = ({ userId }) => {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/products')
+    axios.get('https://inventorysysdeploy.onrender.com/products')
       .then(response => {
         setProducts(response.data);
       })
@@ -22,7 +22,7 @@ const ProductTable = ({ userId }) => {
   };
 
   const handleLogout = () => {
-    axios.get('http://localhost:5000/auth/google/logout', { withCredentials: true })
+    axios.get('https://inventorysysdeploy.onrender.com/auth/google/logout', { withCredentials: true })
       .then(() => {
         window.location.href = '/'; // Redirect to home after logout
       })
@@ -34,7 +34,7 @@ const ProductTable = ({ userId }) => {
   const handleRezervoClick = (productId) => {
     if (window.confirm('Are you sure you want to reserve this product?')) {
       console.log(userId)
-      axios.post('http://localhost:5000/reserve', { productId, userId },{withCredentials:true})
+      axios.post('https://inventorysysdeploy.onrender.com/reserve', { productId, userId },{withCredentials:true})
         .then(response => {
           // Update the product quantity in the UI
           setProducts(products.map(product =>
@@ -88,7 +88,7 @@ const ProductTable = ({ userId }) => {
               {filteredProducts.map((product, index) => (
                 <div key={index} className="bg-white  overflow-hidden rounded-lg shadow-lg">
                   <img
-                    src={`http://localhost:5000/uploads/${product.filename}`}
+                    src={`https://inventorysysdeploy.onrender.com/uploads/${product.filename}`}
                     alt={product.productNameTxt}
                     className="w-full h-60 object-cover"
                   />
