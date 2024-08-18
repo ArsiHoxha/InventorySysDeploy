@@ -7,7 +7,7 @@ const UserOrAdmin = () => {
 
     useEffect(() => {
         // Fetch user data when component mounts
-        axios.get('http://localhost:5000/auth/google/success', { withCredentials: true })
+        axios.get('https://inventorysysdeploy.onrender.com/auth/google/success', { withCredentials: true })
             .then(response => {
                 const { data } = response;
                 if (data) {
@@ -22,7 +22,7 @@ const UserOrAdmin = () => {
     }, []);
 
     if (!user) {
-        return <a href="http://localhost:5000/auth/google">Authenticate with Google</a>;
+        return <a href="https://inventorysysdeploy.onrender.com/auth/google">Authenticate with Google</a>;
     }
 
     return (
