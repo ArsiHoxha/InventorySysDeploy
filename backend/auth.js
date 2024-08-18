@@ -6,7 +6,7 @@ require('dotenv').config();
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://inventorysysdeploy-1-client2.onrender.com/auth/google/callback",
+    callbackURL: "https://inventorysysdeploy.onrender.com/auth/google/callback",
     passReqToCallback: true
   },
   async (request, accessToken, refreshToken, profile, done) => {
