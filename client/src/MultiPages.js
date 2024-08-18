@@ -14,7 +14,7 @@ function MultiPages() {
         <Router>
             <Routes>
                 <Route exact path="/" element={<App />} />
-                <Route path="/profile" element={<UserOrAdmin />} />
+                <Route path="https://inventorysysdeploy-1-client2.onrender.com/profile" element={<UserOrAdmin />} />
                 <Route path="/pending" element={<PendingPage />} />
                 <Route path="/blocked" element={<BlockedUser />} />
 
