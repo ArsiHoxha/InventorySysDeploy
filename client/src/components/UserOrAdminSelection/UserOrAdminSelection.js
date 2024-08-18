@@ -16,7 +16,7 @@ const UserOrAdmin = () => {
                 }
             })
             .catch(error => {
-                console.error('Error fetching user data:', error);
+                console.log('Error fetching user data:', error);
                 window.location.href = '/';
             });
     }, []);
