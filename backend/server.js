@@ -21,6 +21,14 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Fallback for React Router
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
 
 function isLogedIn(req, res, next) {
     req.user ? next() :res.sendStatus(401)
