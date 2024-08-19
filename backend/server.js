@@ -29,6 +29,7 @@ function isLogedIn(req, res, next) {
 app.use(function (request, response, next) {
   response.header("Access-Control-Allow-Origin", "*");
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  
   next();
 });
 
@@ -130,6 +131,7 @@ app.get('/auth/google',
     if (req.isAuthenticated()) {
       try {
         const user = await User.findById(req.user._id); // Ensure you have the user ID in the session
+        console.log(user)
         if (!user) {
           return res.status(401).json({ message: 'User not found' });
         }
