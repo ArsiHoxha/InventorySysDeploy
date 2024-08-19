@@ -23,7 +23,7 @@ const UserOrAdmin = () => {
             .catch(error => {
                 console.log('Error fetching user data:', error);
                 if (error.response && error.response.status === 401) {
-                    window.location.href = '/auth/google';
+                    window.location.href = '/auth/google/succes';
                 }
             })
                         .finally(() => {
