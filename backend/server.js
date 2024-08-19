@@ -81,7 +81,7 @@ app.get('/auth/google',
     }),
     (req, res) => {
       // Successful authentication
-      res.redirect('https://inventorysysdeploy-1-client2.onrender.com/profile');
+      res.redirect('https://inventorysysdeploy-1-front.onrender.com/profile');
     }
   );
     
@@ -114,11 +114,11 @@ app.get('/auth/google',
     const failureMessage = req.session.messages ? req.session.messages[0] : 'Login failed';
   
     if (failureMessage === 'User is pending approval') {
-      res.redirect('https://inventorysysdeploy-1-client2.onrender.com/pending'); // Redirect to pending page
+      res.redirect('https://inventorysysdeploy-1-front.onrender.com/pending'); // Redirect to pending page
     } else if (failureMessage === 'User is blocked') {
-      res.redirect('https://inventorysysdeploy-1-client2.onrender.com/blocked'); // Redirect to blocked page
+      res.redirect('https://inventorysysdeploy-1-front.onrender.com/blocked'); // Redirect to blocked page
     } else {
-      res.redirect(`https://inventorysysdeploy-1-client2.onrender.com/login?error=${encodeURIComponent(failureMessage)}`);
+      res.redirect(`https://inventorysysdeploy-1-front.onrender.com/login?error=${encodeURIComponent(failureMessage)}`);
     }
   });
       const isLoged = async (req, res, next) => {
