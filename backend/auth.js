@@ -8,7 +8,7 @@ const MONGO_URI = 'mongodb+srv://arsihoxha23:Arsi159753@cluster0.60zdjwh.mongodb
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://inventorysysdeploy.onrender.com/auth/google/callback",
+    callbackURL: "http://localhost:5000/auth/google/callback",
     passReqToCallback: true
   },
   async (request, accessToken, refreshToken, profile, done) => {

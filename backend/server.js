@@ -56,7 +56,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'https://inventorysysdeploy-1-front.onrender.com',
+  origin: 'http://localhost:3000',
   credentials: true
 }));
 
@@ -81,7 +81,7 @@ app.get('/auth/google',
     }),
     (req, res) => {
       // Successful authentication
-      res.redirect('https://inventorysysdeploy-1-front.onrender.com/profile');
+      res.redirect('http://localhost:3000/profile');
     }
   );
     
@@ -114,11 +114,11 @@ app.get('/auth/google',
     const failureMessage = req.session.messages ? req.session.messages[0] : 'Login failed';
   
     if (failureMessage === 'User is pending approval') {
-      res.redirect('https://inventorysysdeploy-1-front.onrender.com/pending'); // Redirect to pending page
+      res.redirect('http://localhost:3000/pending'); // Redirect to pending page
     } else if (failureMessage === 'User is blocked') {
-      res.redirect('https://inventorysysdeploy-1-front.onrender.com/blocked'); // Redirect to blocked page
+      res.redirect('http://localhost:3000/blocked'); // Redirect to blocked page
     } else {
-      res.redirect(`https://inventorysysdeploy-1-front.onrender.com/login?error=${encodeURIComponent(failureMessage)}`);
+      res.redirect(`http://localhost:3000/login?error=${encodeURIComponent(failureMessage)}`);
     }
   });
       const isLoged = async (req, res, next) => {
@@ -274,7 +274,6 @@ app.get('/productsPrice', async (req, res) => {
 });
 
 // GET all reservations
-
 app.get('/reservations', async (req, res) => {
   try {
     const reservations = await Reservation.find();
@@ -288,11 +287,11 @@ app.get('/reservations', async (req, res) => {
       const productID = reservation.productId;
       const PRODUCT = await ProducMain.findById(productID);
 
-      // Check if productNameTxt is not empty
-      if (PRODUCT && PRODUCT.productNameTxt) {
+      // Check if productNameTxt and userDisplayName are not empty
+      if (PRODUCT && PRODUCT.productNameTxt && USER && USER.displayName) {
         const reservationData = {
           reservedAt: reservation.reservedAt,
-          userDisplayName: USER ? USER.displayName : null,
+          userDisplayName: USER.displayName,
           productNameTxt: PRODUCT.productNameTxt
         };
 
@@ -307,7 +306,6 @@ app.get('/reservations', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
 app.get('/users', async (req, res) => {
   try {
     const users = await User.find({isAdmin: false});

@@ -33,7 +33,7 @@ export default function ProductsUpload() {
       formData.append("file", imageProfile);
 
       const response = await axios.post(
-        "https://inventorysysdeploy.onrender.com/uploadProduct",
+        "http://localhost:5000/uploadProduct",
         formData,
         {
           headers: {

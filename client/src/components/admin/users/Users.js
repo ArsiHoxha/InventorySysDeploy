@@ -10,7 +10,7 @@ const Users = () => {
     useEffect(() => {
         const fetchReservations = async () => {
             try {
-                const response = await axios.get('https://inventorysysdeploy.onrender.com/reservations',{withCredentials:true});
+                const response = await axios.get('http://localhost:5000/reservations',{withCredentials:true});
                 setReservations(response.data);
                 setFilteredReservations(response.data); // Initialize filtered reservations with all reservations
             } catch (error) {

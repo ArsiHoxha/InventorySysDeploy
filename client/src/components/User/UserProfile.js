@@ -6,7 +6,7 @@ const UserProfile = ({ userId }) => {
   const [user, setUser] = useState({}); // Initialize user as an empty object
 
   const handleLogout = () => {
-    axios.get('https://inventorysysdeploy.onrender.com/auth/google/logout', { withCredentials: true })
+    axios.get('http://localhost:5000/auth/google/logout', { withCredentials: true })
       .then(() => {
         window.location.href = '/'; // Redirect to home after logout
       })
@@ -19,7 +19,7 @@ const UserProfile = ({ userId }) => {
     try {
       if (userId) {
         console.log(userId)
-        const response = await axios.get(`https://inventorysysdeploy.onrender.com/getUserInfo/${userId}`, { withCredentials: true });
+        const response = await axios.get(`http://localhost:5000/getUserInfo/${userId}`, { withCredentials: true });
         setUser(response.data); // Set the fetched user data
       }
     } catch (error) {

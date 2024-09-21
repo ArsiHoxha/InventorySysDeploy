@@ -16,7 +16,7 @@ const Dashboard = () => {
 
   const fetchProductsPrice = async () => {
     try {
-      const response = await axios.get('https://inventorysysdeploy.onrender.com/productsPrice');
+      const response = await axios.get('http://localhost:5000/productsPrice');
       setProducts(response.data.products);
       setLowestPriceProduct(response.data.lowestPriceProduct);
       setHighestPriceProduct(response.data.highestPriceProduct);
@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   const fetchTotalUsersCount = async () => {
     try {
-      const response = await axios.get('https://inventorysysdeploy.onrender.com/totalUsersCount');
+      const response = await axios.get('http://localhost:5000/totalUsersCount');
       setTotalUsersCount(response.data.totalUsersCount);
     } catch (error) {
       console.error('Error fetching total users count:', error);
@@ -36,7 +36,7 @@ const Dashboard = () => {
 
   const fetchMostActiveUsers = async () => {
     try {
-      const response = await axios.get('https://inventorysysdeploy.onrender.com/mostActiveUsers');
+      const response = await axios.get('http://localhost:5000/mostActiveUsers');
       setMostActiveUsers(response.data);
     } catch (error) {
       console.error('Error fetching most active users:', error);
@@ -71,17 +71,6 @@ const Dashboard = () => {
         </div>
       </div>
       <div>
-        <h3 className="text-xl font-semibold mb-4">Përdoruesit më aktivë</h3>
-        {mostActiveUsers.length > 0 ? (
-          mostActiveUsers.map(user => (
-            <div key={user.userId} className="bg-yellow-100 p-4 rounded-md mb-4">
-              <p className="font-medium">Emri: {user.displayName}</p>
-              <p className="font-medium">Numri i rezervimeve: {user.reservationCount}</p>
-            </div>
-          ))
-        ) : (
-          <p>Nuk ka përdorues aktivë për të shfaqur.</p>
-        )}
       </div>
     </div>
   );

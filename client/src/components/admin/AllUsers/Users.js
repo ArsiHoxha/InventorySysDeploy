@@ -11,7 +11,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://inventorysysdeploy.onrender.com/users');
+      const response = await axios.get('http://localhost:5000/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -20,7 +20,7 @@ const UserManagement = () => {
 
   const handleBlockUser = async (userId) => {
     try {
-      await axios.post(`https://inventorysysdeploy.onrender.com/blockUser/${userId}`);
+      await axios.post(`http://localhost:5000/blockUser/${userId}`);
       fetchUsers();  // Refresh the user list
     } catch (error) {
       console.error('Error blocking user:', error);
@@ -29,7 +29,7 @@ const UserManagement = () => {
 
   const handleUnblockUser = async (userId) => {
     try {
-      await axios.post(`https://inventorysysdeploy.onrender.com/unblockUser/${userId}`);
+      await axios.post(`http://localhost:5000/unblockUser/${userId}`);
       fetchUsers();  // Refresh the user list
     } catch (error) {
       console.error('Error unblocking user:', error);
@@ -38,7 +38,7 @@ const UserManagement = () => {
 
   const handleApproveUser = async (userId) => {
     try {
-      await axios.post(`https://inventorysysdeploy.onrender.com/approveUser/${userId}`);
+      await axios.post(`http://localhost:5000/approveUser/${userId}`);
       fetchUsers();  // Refresh the user list
     } catch (error) {
       console.error('Error approving user:', error);
@@ -47,7 +47,7 @@ const UserManagement = () => {
 
   const handleRejectUser = async (userId) => {
     try {
-      await axios.post(`https://inventorysysdeploy.onrender.com/rejectUser/${userId}`);
+      await axios.post(`http://localhost:5000/rejectUser/${userId}`);
       fetchUsers();  // Refresh the user list
     } catch (error) {
       console.error('Error rejecting user:', error);
@@ -62,7 +62,7 @@ const UserManagement = () => {
     
     if (confirmDelete) {
       try {
-        await axios.delete('https://inventorysysdeploy.onrender.com/deleteAllUsers');
+        await axios.delete('http://localhost:5000/deleteAllUsers');
         setUsers([]); // Clear the local state
       } catch (error) {
         console.error('Error deleting all users:', error);
