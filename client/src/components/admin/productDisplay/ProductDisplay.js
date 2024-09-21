@@ -7,7 +7,7 @@ const ProductData = () => {
   const [sortOrder, setSortOrder] = useState("asc"); // State to track sorting order
 
   useEffect(() => {
-    axios.get('http://localhost:5000/products')
+    axios.get('https://rrobotika.onrender.com/products')
       .then(response => {
         setProducts(response.data);
       })
@@ -19,7 +19,7 @@ const ProductData = () => {
   const handleDelete = (productId) => {
     const isConfirmed = window.confirm("Are you sure you want to delete this product?");
     if (isConfirmed) {
-      axios.delete(`http://localhost:5000/products/${productId}`)
+      axios.delete(`https://rrobotika.onrender.com/products/${productId}`)
         .then(response => {
           setProducts(products.filter(product => product._id !== productId));
         })
@@ -83,7 +83,7 @@ const ProductData = () => {
                 {filteredProducts.map((product) => (
                   <tr key={product._id}>
                     <td className="py-2 px-4 border-b border-gray-200">
-                      <img className="h-16 w-16 object-cover rounded" src={`http://localhost:5000/uploads/${product.productImg}`} alt={product.productNameTxt} />
+                      <img className="h-16 w-16 object-cover rounded" src={`https://rrobotika.onrender.com/uploads/${product.productImg}`} alt={product.productNameTxt} />
                     </td>
                     <td className="py-2 px-4 border-b border-gray-200">{product.productNameTxt}</td>
                     <td className="py-2 px-4 border-b border-gray-200">{product.descriptionTxt}</td>

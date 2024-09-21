@@ -33,7 +33,7 @@ export default function ProductsUpload() {
       formData.append("file", imageProfile);
 
       const response = await axios.post(
-        "http://localhost:5000/uploadProduct",
+        "https://rrobotika.onrender.com/uploadProduct",
         formData,
         {
           headers: {
