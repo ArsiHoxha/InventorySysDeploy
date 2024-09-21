@@ -125,7 +125,6 @@ app.get('/auth/google',
     if (req.isAuthenticated()) {
       try {
         const user = await User.findById(req.user._id); // Ensure you have the user ID in the session
-        console.log(user)
         if (!user) {
           return res.status(401).json({ message: 'User not found' });
         }
@@ -143,7 +142,6 @@ app.get('/auth/google',
   app.get("/getUserInfo", isLoged, async (req, res) => {
     try {
       const users = await User.find({});
-      console.log(users);
       res.json(req.user ); // Return all users
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -317,7 +315,7 @@ app.get('/users', async (req, res) => {
 });
 
 // Block a user
-app.post('/blockUser/:id', async (req, res) => {
+app.post('/removeUser/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
@@ -326,16 +324,14 @@ app.post('/blockUser/:id', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    user.blocked = true;
-    await user.save();
+    await User.findByIdAndDelete(id); // Remove user from the database
 
-    res.status(200).json({ message: 'User blocked successfully' });
+    res.status(200).json({ message: 'User removed successfully' }); // Send success message
   } catch (error) {
-    console.error('Error blocking user:', error);
+    console.error('Error removing user:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
 // Unblock a user
 app.post('/unblockUser/:id', async (req, res) => {
   try {

@@ -18,7 +18,6 @@ const UserProfile = ({ userId }) => {
   const fetchUser = async () => {
     try {
       if (userId) {
-        console.log(userId)
         const response = await axios.get(`http://localhost:5000/getUserInfo/${userId}`, { withCredentials: true });
         setUser(response.data); // Set the fetched user data
       }

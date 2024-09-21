@@ -20,13 +20,18 @@ const UserManagement = () => {
 
   const handleBlockUser = async (userId) => {
     try {
-      await axios.post(`http://localhost:5000/blockUser/${userId}`);
-      fetchUsers();  // Refresh the user list
+      const isConfirmed = window.confirm('Are you sure you want to remove this user?');
+      
+      if (isConfirmed) {
+        await axios.post(`http://localhost:5000/removeUser/${userId}`);
+        alert('User removed successfully');  // Display a success message
+        fetchUsers();  // Refresh the user list
+      }
     } catch (error) {
-      console.error('Error blocking user:', error);
+      console.error('Error removing user:', error);
     }
   };
-
+  
   const handleUnblockUser = async (userId) => {
     try {
       await axios.post(`http://localhost:5000/unblockUser/${userId}`);
@@ -42,15 +47,6 @@ const UserManagement = () => {
       fetchUsers();  // Refresh the user list
     } catch (error) {
       console.error('Error approving user:', error);
-    }
-  };
-
-  const handleRejectUser = async (userId) => {
-    try {
-      await axios.post(`http://localhost:5000/rejectUser/${userId}`);
-      fetchUsers();  // Refresh the user list
-    } catch (error) {
-      console.error('Error rejecting user:', error);
     }
   };
 
@@ -136,19 +132,13 @@ const UserManagement = () => {
                       >
                         Approve
                       </button>
-                      <button
-                        onClick={() => handleRejectUser(user._id)}
-                        className="text-red-500 hover:underline"
-                      >
-                        Reject
-                      </button>
                     </>
                   ) : (
                     <button
                       onClick={() => handleBlockUser(user._id)}
                       className="text-red-500 hover:underline"
                     >
-                      Block
+                      Remove
                     </button>
                   )}
                 </td>

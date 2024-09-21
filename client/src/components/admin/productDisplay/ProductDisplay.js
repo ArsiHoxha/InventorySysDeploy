@@ -10,7 +10,6 @@ const ProductData = () => {
     axios.get('http://localhost:5000/products')
       .then(response => {
         setProducts(response.data);
-        console.log(response.data);
       })
       .catch(err => {
         console.log(err);

@@ -33,7 +33,6 @@ const ProductTable = ({ userId }) => {
 
   const handleRezervoClick = (productId) => {
     if (window.confirm('Are you sure you want to reserve this product?')) {
-      console.log(userId)
       axios.post('http://localhost:5000/reserve', { productId, userId },{withCredentials:true})
         .then(response => {
           // Update the product quantity in the UI
