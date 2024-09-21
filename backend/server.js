@@ -81,7 +81,7 @@ app.get('/auth/google',
     }),
     (req, res) => {
       // Successful authentication
-      res.redirect('https://inventory-sys-deploy.vercel.app//profile');
+      res.redirect('https://inventory-sys-deploy.vercel.app/profile');
     }
   );
     
@@ -114,11 +114,11 @@ app.get('/auth/google',
     const failureMessage = req.session.messages ? req.session.messages[0] : 'Login failed';
   
     if (failureMessage === 'User is pending approval') {
-      res.redirect('https://inventory-sys-deploy.vercel.app//pending'); // Redirect to pending page
+      res.redirect('https://inventory-sys-deploy.vercel.app/pending'); // Redirect to pending page
     } else if (failureMessage === 'User is blocked') {
-      res.redirect('https://inventory-sys-deploy.vercel.app//blocked'); // Redirect to blocked page
+      res.redirect('https://inventory-sys-deploy.vercel.app/blocked'); // Redirect to blocked page
     } else {
-      res.redirect(`https://inventory-sys-deploy.vercel.app//login?error=${encodeURIComponent(failureMessage)}`);
+      res.redirect(`https://inventory-sys-deploy.vercel.app/login?error=${encodeURIComponent(failureMessage)}`);
     }
   });
       const isLoged = async (req, res, next) => {
