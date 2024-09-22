@@ -56,10 +56,9 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'https://inventorysysdeploy-1-front.onrender.com',
+  origin: "https://inventorysysdeploy-1-front.onrender.com",
   credentials: true
 }));
-
 app.use(session({
   secret: 'keyboard cat',
   resave: false,

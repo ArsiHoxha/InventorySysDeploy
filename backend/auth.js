@@ -15,7 +15,7 @@ passport.use(new GoogleStrategy({
     try {
       const email = profile.emails[0].value;
       const domain = email.split('@')[1];
-
+      
       if (domain === 'gmail.com') {
         let user = await User.findOne({ googleId: profile.id });
 
