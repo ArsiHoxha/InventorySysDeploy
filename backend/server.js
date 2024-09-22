@@ -56,7 +56,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'https://inventory-sys-deploy.vercel.app',
+  origin: 'https://inventorysysdeploy-1-front.onrender.com',
   credentials: true
 }));
 
@@ -81,7 +81,7 @@ app.get('/auth/google',
     }),
     (req, res) => {
       // Successful authentication
-      res.redirect('https://inventory-sys-deploy.vercel.app/profile');
+      res.redirect('https://inventorysysdeploy-1-front.onrender.com/profile');
     }
   );
     
@@ -114,11 +114,11 @@ app.get('/auth/google',
     const failureMessage = req.session.messages ? req.session.messages[0] : 'Login failed';
   
     if (failureMessage === 'User is pending approval') {
-      res.redirect('https://inventory-sys-deploy.vercel.app/pending'); // Redirect to pending page
+      res.redirect('https://inventorysysdeploy-1-front.onrender.com/pending'); // Redirect to pending page
     } else if (failureMessage === 'User is blocked') {
-      res.redirect('https://inventory-sys-deploy.vercel.app/blocked'); // Redirect to blocked page
+      res.redirect('https://inventorysysdeploy-1-front.onrender.com/blocked'); // Redirect to blocked page
     } else {
-      res.redirect(`https://inventory-sys-deploy.vercel.app/login?error=${encodeURIComponent(failureMessage)}`);
+      res.redirect(`https://inventorysysdeploy-1-front.onrender.com/login?error=${encodeURIComponent(failureMessage)}`);
     }
   });
       const isLoged = async (req, res, next) => {

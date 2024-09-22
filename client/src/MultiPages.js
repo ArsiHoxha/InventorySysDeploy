@@ -14,7 +14,7 @@ function MultiPages() {
         <Router>
             <Routes>
                 <Route exact path="/" element={<App />} />
-                <Route path="https://inventory-sys-deploy.vercel.app/profile" element={<UserOrAdmin />} />
+                <Route path="/profile" element={<UserOrAdmin />} />
                 <Route path="/pending" element={<PendingPage />} />
                 <Route path="/blocked" element={<BlockedUser />} />
 
