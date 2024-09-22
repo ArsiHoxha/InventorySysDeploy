@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get('https://rrobotika.onrender.com/auth/google/success', { withCredentials: true });
+        const res = await axios.get('https://inventorysysdeploy-1.onrender.com/auth/google/success', { withCredentials: true });
         setUser(res.data);
         if (res.data) {
           navigate('/profile');
@@ -24,7 +24,7 @@ function App() {
   }, [navigate]);
 
   const handleLogin = () => {
-    const googleAuthURL = 'https://rrobotika.onrender.com/auth/google';
+    const googleAuthURL = 'https://inventorysysdeploy-1.onrender.com/auth/google';
     window.open(googleAuthURL, '_self');
   };
 

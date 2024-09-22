@@ -11,7 +11,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://rrobotika.onrender.com/users');
+      const response = await axios.get('https://inventorysysdeploy-1.onrender.com/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -23,7 +23,7 @@ const UserManagement = () => {
       const isConfirmed = window.confirm('Are you sure you want to remove this user?');
       
       if (isConfirmed) {
-        await axios.post(`https://rrobotika.onrender.com/removeUser/${userId}`);
+        await axios.post(`https://inventorysysdeploy-1.onrender.com/removeUser/${userId}`);
         alert('User removed successfully');  // Display a success message
         fetchUsers();  // Refresh the user list
       }
@@ -34,7 +34,7 @@ const UserManagement = () => {
   
   const handleUnblockUser = async (userId) => {
     try {
-      await axios.post(`https://rrobotika.onrender.com/unblockUser/${userId}`);
+      await axios.post(`https://inventorysysdeploy-1.onrender.com/unblockUser/${userId}`);
       fetchUsers();  // Refresh the user list
     } catch (error) {
       console.error('Error unblocking user:', error);
@@ -43,7 +43,7 @@ const UserManagement = () => {
 
   const handleApproveUser = async (userId) => {
     try {
-      await axios.post(`https://rrobotika.onrender.com/approveUser/${userId}`);
+      await axios.post(`https://inventorysysdeploy-1.onrender.com/approveUser/${userId}`);
       fetchUsers();  // Refresh the user list
     } catch (error) {
       console.error('Error approving user:', error);
@@ -58,7 +58,7 @@ const UserManagement = () => {
     
     if (confirmDelete) {
       try {
-        await axios.delete('https://rrobotika.onrender.com/deleteAllUsers');
+        await axios.delete('https://inventorysysdeploy-1.onrender.com/deleteAllUsers');
         setUsers([]); // Clear the local state
       } catch (error) {
         console.error('Error deleting all users:', error);

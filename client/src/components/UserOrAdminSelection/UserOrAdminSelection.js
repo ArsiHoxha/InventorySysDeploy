@@ -10,11 +10,11 @@ const UserOrAdmin = () => {
 
     useEffect(() => {
         // Fetch user data when component mounts
-        axios.get('https://rrobotika.onrender.com/auth/google/success', { withCredentials: true })
+        axios.get('https://inventorysysdeploy-1.onrender.com/auth/google/success', { withCredentials: true })
             .then(response => {
                 const { data } = response;
                 if (data) {
-                    setUser(data);
+                    setUser(data);  
                 } else {
                     // If data is null, redirect to home
                     window.location.href = '/';
