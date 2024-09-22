@@ -40,7 +40,7 @@ const UserOrAdmin = () => {
 
     return (
         <div>
-            {user.isAdmin ? (
+            {user && user.isAdmin ? (
                 <Admin />
             ) : (
                 <UserProfile userId={user.googleId} />
