@@ -56,7 +56,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-  origin: "https://inventorysysdeploy-1-front.onrender.com",
+  origin: "http://localhost:3000",
   credentials: true
 }));
 app.use(session({
@@ -80,7 +80,7 @@ app.get('/auth/google',
     }),
     (req, res) => {
       // Successful authentication
-      res.redirect('https://inventorysysdeploy-1-front.onrender.com/profile');
+      res.redirect('http://localhost:3000/profile');
     }
   );
     
@@ -113,11 +113,11 @@ app.get('/auth/google',
     const failureMessage = req.session.messages ? req.session.messages[0] : 'Login failed';
   
     if (failureMessage === 'User is pending approval') {
-      res.redirect('https://inventorysysdeploy-1-front.onrender.com/pending'); // Redirect to pending page
+      res.redirect('http://localhost:3000/pending'); // Redirect to pending page
     } else if (failureMessage === 'User is blocked') {
-      res.redirect('https://inventorysysdeploy-1-front.onrender.com/blocked'); // Redirect to blocked page
+      res.redirect('http://localhost:3000/blocked'); // Redirect to blocked page
     } else {
-      res.redirect(`https://inventorysysdeploy-1-front.onrender.com/login?error=${encodeURIComponent(failureMessage)}`);
+      res.redirect(`http://localhost:3000/login?error=${encodeURIComponent(failureMessage)}`);
     }
   });
       const isLoged = async (req, res, next) => {

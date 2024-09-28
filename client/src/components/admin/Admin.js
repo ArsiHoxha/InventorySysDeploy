@@ -15,7 +15,7 @@ import { RiLogoutBoxFill } from "react-icons/ri";
 
 const handleLogout = () => {
   // Logout user when logout button is clicked
-  axios.get('https://inventorysysdeploy-1.onrender.com/auth/google/logout', { withCredentials: true })
+  axios.get('http://localhost:5000/auth/google/logout', { withCredentials: true })
     .then(() => {
       window.location.href = '/'; // Redirect to home after logout
     })

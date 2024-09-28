@@ -10,7 +10,7 @@ const UserOrAdmin = () => {
 
     useEffect(() => {
         // Fetch user data when component mounts
-        axios.get('https://inventorysysdeploy-1.onrender.com/auth/google/success', { withCredentials: true })
+        axios.get('http://localhost:5000/auth/google/success', { withCredentials: true })
             .then(response => {
                 const { data } = response;
                 if (data) {
