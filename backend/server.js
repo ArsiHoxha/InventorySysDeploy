@@ -82,7 +82,7 @@ app.get('/auth/google',
       // Successful authentication
       res.redirect('http://localhost:3000/profile');
     }
-  );
+  );  
     
   app.get('/auth/google/success', (req, res) => {
     if (req.user) {
