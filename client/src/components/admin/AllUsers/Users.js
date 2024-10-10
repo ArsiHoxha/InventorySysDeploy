@@ -15,6 +15,8 @@ const UserManagement = () => {
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
+      window.location.href = '/'; // Redirect to home after logout
+
     }
   };
 

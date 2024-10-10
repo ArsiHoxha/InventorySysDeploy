@@ -182,6 +182,14 @@ app.get('/products', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+app.put('/products/:id', async (req, res) => {
+  try {
+    const updatedProduct = await ProducMain.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedProduct);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 
 app.delete('/products/:id', async (req, res) => {
   const productId = req.params.id;

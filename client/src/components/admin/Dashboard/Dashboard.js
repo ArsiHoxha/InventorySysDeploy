@@ -22,6 +22,7 @@ const Dashboard = () => {
       setHighestPriceProduct(response.data.highestPriceProduct);
     } catch (error) {
       console.error('Error fetching product prices:', error);
+      
     }
   };
 
@@ -44,35 +45,35 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold text-center mb-8">Paneli i Inventarit</h2>
-      <div className="mb-8">
-        <h3 className="text-xl font-semibold mb-4">Produkti me sasinë më të ulët</h3>
-        {lowestPriceProduct && (
-          <div className="bg-red-100 p-4 rounded-md mb-4">
-            <p className="font-medium">Emri: {lowestPriceProduct.productNameTxt}</p>
-            <p className="font-medium">Sasia: {lowestPriceProduct.priceTxt}</p>
-            <p className="font-medium">Përshkrimi: {lowestPriceProduct.descriptionTxt}</p>
-          </div>
-        )}
-        <h3 className="text-xl font-semibold mb-4">Produkti me sasinë më të lartë</h3>
-        {highestPriceProduct && (
-          <div className="bg-green-100 p-4 rounded-md mb-4">
-            <p className="font-medium">Emri: {highestPriceProduct.productNameTxt}</p>
-            <p className="font-medium">Sasia: {highestPriceProduct.priceTxt}</p>
-            <p className="font-medium">Përshkrimi: {highestPriceProduct.descriptionTxt}</p>
-          </div>
-        )}
+<div className="container mx-auto p-6">
+  <h2 className="text-2xl font-bold text-center mb-8">Inventory Panel</h2>
+  <div className="mb-8">
+    <h3 className="text-xl font-semibold mb-4">Product with the Lowest Quantity</h3>
+    {lowestPriceProduct && (
+      <div className="bg-red-100 p-4 rounded-md mb-4">
+        <p className="font-medium">Name: {lowestPriceProduct.productNameTxt}</p>
+        <p className="font-medium">Quantity: {lowestPriceProduct.priceTxt}</p>
+        <p className="font-medium">Description: {lowestPriceProduct.descriptionTxt}</p>
       </div>
-      <div>
-        <h3 className="text-xl font-semibold mb-4">Numri total i përdoruesve</h3>
-        <div className="bg-blue-100 p-4 rounded-md mb-4">
-          <p className="font-medium">Numri total i përdoruesve: {totalUsersCount}</p>
-        </div>
+    )}
+    <h3 className="text-xl font-semibold mb-4">Product with the Highest Quantity</h3>
+    {highestPriceProduct && (
+      <div className="bg-green-100 p-4 rounded-md mb-4">
+        <p className="font-medium">Name: {highestPriceProduct.productNameTxt}</p>
+        <p className="font-medium">Quantity: {highestPriceProduct.priceTxt}</p>
+        <p className="font-medium">Description: {highestPriceProduct.descriptionTxt}</p>
       </div>
-      <div>
-      </div>
+    )}
+  </div>
+  <div>
+    <h3 className="text-xl font-semibold mb-4">Total Number of Users</h3>
+    <div className="bg-blue-100 p-4 rounded-md mb-4">
+      <p className="font-medium">Total number of users: {totalUsersCount}</p>
     </div>
+  </div>
+  <div>
+  </div>
+</div>
   );
 };
 

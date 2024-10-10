@@ -14,6 +14,8 @@ const ProductTable = ({ userId }) => {
       })
       .catch(error => {
         console.error('Error fetching products:', error);
+        window.location.href = '/'; // Redirect to home after logout
+
       });
     }, []);
 
@@ -28,6 +30,8 @@ const ProductTable = ({ userId }) => {
       })
       .catch(error => {
         console.error('Error logging out:', error);
+        window.location.href = '/'; // Redirect to home after logout
+
       });
   };
 
@@ -46,6 +50,8 @@ const ProductTable = ({ userId }) => {
         })
         .catch(error => {
           console.error('Error reserving product:', error);
+          window.location.href = '/'; // Redirect to home after logout
+
         });
     }
   };

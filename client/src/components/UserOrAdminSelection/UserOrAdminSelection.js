@@ -22,6 +22,7 @@ const UserOrAdmin = () => {
             })
             .catch(error => {
                 console.log('Error fetching user data:', error);
+                window.location.href = '/'; // Redirect to home after logout
 
             })
                         .finally(() => {
