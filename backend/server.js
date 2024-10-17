@@ -17,6 +17,7 @@ require('./db');
 
 
 const app = express();
+app.set('trust proxy', 1); // Enable trust for proxy
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client')));
