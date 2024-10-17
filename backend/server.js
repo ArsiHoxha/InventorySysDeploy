@@ -17,7 +17,7 @@ require('./db');
 
 
 const app = express();
-app.set('trust proxy', 1); // Enable trust for proxy
+app.set('trust proxy', 1);
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client')));
@@ -61,12 +61,15 @@ app.use(cors({
   credentials: true
 }));
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'cats',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: true,  // Ensures cookies are sent only over HTTPS
+    sameSite: 'none',  // Allows cross-origin requests
+  },
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
