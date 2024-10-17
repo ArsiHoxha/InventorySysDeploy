@@ -11,7 +11,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/users');
+      const response = await axios.get('https://inventorysysdeploy-2.onrender.com/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -25,7 +25,7 @@ const UserManagement = () => {
       const isConfirmed = window.confirm('Are you sure you want to remove this user?');
       
       if (isConfirmed) {
-        await axios.post(`http://localhost:5000/removeUser/${userId}`);
+        await axios.post(`https://inventorysysdeploy-2.onrender.com/removeUser/${userId}`);
         alert('User removed successfully');  // Display a success message
         fetchUsers();  // Refresh the user list
       }
@@ -36,7 +36,7 @@ const UserManagement = () => {
   
   const handleUnblockUser = async (userId) => {
     try {
-      await axios.post(`http://localhost:5000/unblockUser/${userId}`);
+      await axios.post(`https://inventorysysdeploy-2.onrender.com/unblockUser/${userId}`);
       fetchUsers();  // Refresh the user list
     } catch (error) {
       console.error('Error unblocking user:', error);
@@ -45,7 +45,7 @@ const UserManagement = () => {
 
   const handleApproveUser = async (userId) => {
     try {
-      await axios.post(`http://localhost:5000/approveUser/${userId}`);
+      await axios.post(`https://inventorysysdeploy-2.onrender.com/approveUser/${userId}`);
       fetchUsers();  // Refresh the user list
     } catch (error) {
       console.error('Error approving user:', error);
@@ -60,7 +60,7 @@ const UserManagement = () => {
     
     if (confirmDelete) {
       try {
-        await axios.delete('http://localhost:5000/deleteAllUsers');
+        await axios.delete('https://inventorysysdeploy-2.onrender.com/deleteAllUsers');
         setUsers([]); // Clear the local state
       } catch (error) {
         console.error('Error deleting all users:', error);

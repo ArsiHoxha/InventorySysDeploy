@@ -16,7 +16,7 @@ const Dashboard = () => {
 
   const fetchProductsPrice = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/productsPrice');
+      const response = await axios.get('https://inventorysysdeploy-2.onrender.com/productsPrice');
       setProducts(response.data.products);
       setLowestPriceProduct(response.data.lowestPriceProduct);
       setHighestPriceProduct(response.data.highestPriceProduct);
@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   const fetchTotalUsersCount = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/totalUsersCount');
+      const response = await axios.get('https://inventorysysdeploy-2.onrender.com/totalUsersCount');
       setTotalUsersCount(response.data.totalUsersCount);
     } catch (error) {
       console.error('Error fetching total users count:', error);
@@ -37,7 +37,7 @@ const Dashboard = () => {
 
   const fetchMostActiveUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/mostActiveUsers');
+      const response = await axios.get('https://inventorysysdeploy-2.onrender.com/mostActiveUsers');
       setMostActiveUsers(response.data);
     } catch (error) {
       console.error('Error fetching most active users:', error);
