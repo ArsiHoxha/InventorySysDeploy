@@ -2,8 +2,8 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const User = require('./schemas/UserAuth'); // Path to your User model
 require('dotenv').config();
-const GOOGLE_CLIENT_ID = "274821330011-r9p49elo3hd2kq9uhjl4g0lv6s70a4pv.apps.googleusercontent.com"
-const GOOGLE_CLIENT_SECRET= "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"
+const GOOGLE_CLIENT_ID = "744868469745-ovrfdrhmsvnqod7607g972m30ah0brqj.apps.googleusercontent.com"
+const GOOGLE_CLIENT_SECRET= "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"
 const MONGO_URI = 'mongodb+srv://arsihoxha23:Arsi159753@cluster0.60zdjwh.mongodb.net/'
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
