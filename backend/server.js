@@ -28,32 +28,20 @@ function isLogedIn(req, res, next) {
 }
 
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    if (file.mimetype.startsWith("image/")) {
-      cb(null, "uploads/");
-    } else {
-      cb(new Error("Invalid file type"));
-    }
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Ensure this directory exists
   },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + uuidv4();
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + file.originalname;
+    cb(null, uniqueSuffix);
+  }
 });
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image/")) {
-    cb(null, true);
-  } else {
-    cb(new Error("Invalid file type"), false);
-  }
-};
+const upload = multer({ storage: storage });
 
-
-const upload = multer({ storage: storage, fileFilter: fileFilter });
-
+// Serve static files from the uploads directory
+app.use('/uploads', express.static('uploads'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
@@ -61,14 +49,14 @@ app.use(cors({
   credentials: true
 }));
 app.use(session({
-  secret: 'cats',
+  secret: 'yourSecret',
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: true,  // Ensures cookies are sent only over HTTPS
-    sameSite: 'none',  // Allows cross-origin requests
-  },
+    secure: true,  // Required for cookies to work in secure environments
+    sameSite: 'None'  // Necessary for cross-site cookies in Safari
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
