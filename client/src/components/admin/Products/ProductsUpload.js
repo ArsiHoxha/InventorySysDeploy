@@ -10,17 +10,16 @@ export default function ProductsUpload() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleProductNameChange = (e) => setProductName(e.target.value);
-  const handlePriceChange = (e) => setPrice(e.target.value);
-  const handleDescriptionChange = (e) => setDescription(e.target.value);
-  const handleCategoryChange = (e) => setCategory(e.target.value);
+  const handleInputChange = (setter) => (e) => setter(e.target.value);
   const handleImageProductChange = (e) => setImageProfile(e.target.files[0]);
 
   const handlePostProduct = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
-    if (!productName || !price || !description  || !imageProfile) {
+
+    // Basic validation
+    if (!productName || !price || !description || !category || !imageProfile) {
       setError('All fields are required.');
       return;
     }
@@ -30,6 +29,7 @@ export default function ProductsUpload() {
       formData.append("productName", productName);
       formData.append("price", price);
       formData.append("description", description);
+      formData.append("category", category); // Include category in form data
       formData.append("file", imageProfile);
 
       const response = await axios.post(
@@ -70,7 +70,7 @@ export default function ProductsUpload() {
           type="text"
           placeholder="Enter product name"
           value={productName}
-          onChange={handleProductNameChange}
+          onChange={handleInputChange(setProductName)}
         />
       </div>
       <div className="mb-4">
@@ -83,7 +83,7 @@ export default function ProductsUpload() {
           type="text"
           placeholder="Enter quantity"
           value={price}
-          onChange={handlePriceChange}
+          onChange={handleInputChange(setPrice)}
         />
       </div>
       <div className="mb-4">
@@ -95,10 +95,21 @@ export default function ProductsUpload() {
           id="description"
           placeholder="Enter product description"
           value={description}
-          onChange={handleDescriptionChange}
+          onChange={handleInputChange(setDescription)}
         />
       </div>
-      <div className="mb-6">
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
+          Category
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="category"
+          type="text"
+          placeholder="Enter product category"
+          value={category}
+          onChange={handleInputChange(setCategory)}
+        />
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
@@ -110,6 +121,7 @@ export default function ProductsUpload() {
           name="file"
           accept="image/*"
           onChange={handleImageProductChange}
+          className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       {error && <p className="text-red-500 text-xs italic">{error}</p>}

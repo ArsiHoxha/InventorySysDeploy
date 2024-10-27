@@ -25,6 +25,10 @@ app.set('trust proxy', true);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(cors({
+  origin: "https://inventorysysdeploy-3-client.onrender.com",
+  credentials: true
+}));
 
 function isLogedIn(req, res, next) {
     req.user ? next() :res.sendStatus(401)
@@ -62,10 +66,6 @@ const upload = multer({ storage });
 app.use('/uploads', express.static('uploads'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({
-  origin: "https://inventorysysdeploy-3-client.onrender.com",
-  credentials: true
-}));
 app.use(session({
   secret: 'yourSecret',
   resave: false,
