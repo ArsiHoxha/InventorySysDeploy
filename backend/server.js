@@ -160,17 +160,20 @@ app.get('/auth/google',
   });
   
   app.post('/uploadProduct', upload.single('file'), async (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+  
     try {
       const { productName, price, description } = req.body;
   
       const newProduct = new ProducMain({
         id: uuidv4(),
         productNameTxt: productName,
-        productImg: req.file.filename, // Use the filename from GridFS
+        productImg: req.file.filename,
         priceTxt: price,
         descriptionTxt: description,
         filename: req.file.filename,
-        path: req.file.path, // Note: The path may not be required as GridFS stores files in MongoDB
         originalname: req.file.originalname,
         mimetype: req.file.mimetype,
         size: req.file.size
@@ -183,7 +186,7 @@ app.get('/auth/google',
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
-  app.get('/files/:filename', (req, res) => {
+    app.get('/files/:filename', (req, res) => {
     gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
       if (!file || file.length === 0) {
         return res.status(404).json({ err: 'No file exists' });
