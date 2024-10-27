@@ -26,19 +26,19 @@ export default function ProductsUpload() {
 
     try {
       const formData = new FormData();
-      formData.append("productName", productName);
-      formData.append("price", price);
-      formData.append("description", description);
-      formData.append("category", category); // Include category in form data
-      formData.append("file", imageProfile);
+      formData.append('productName', productName);
+      formData.append('price', price);
+      formData.append('description', description);
+      formData.append('category', category); // Include category in form data
+      formData.append('file', imageProfile);
 
       const response = await axios.post(
-        "https://inventorysysdeploy-2.onrender.com/uploadProduct",
+        'https://inventorysysdeploy-2.onrender.com/uploadProduct',
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         }
       );
 
@@ -59,9 +59,15 @@ export default function ProductsUpload() {
   };
 
   return (
-    <form className="mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handlePostProduct}>
+    <form
+      className="mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      onSubmit={handlePostProduct}
+    >
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="productName">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="productName"
+        >
           Product Name
         </label>
         <input
@@ -74,7 +80,10 @@ export default function ProductsUpload() {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="price"
+        >
           Quantity
         </label>
         <input
@@ -87,7 +96,10 @@ export default function ProductsUpload() {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="description"
+        >
           Description
         </label>
         <textarea
@@ -99,7 +111,10 @@ export default function ProductsUpload() {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="category"
+        >
           Category
         </label>
         <input
@@ -112,7 +127,10 @@ export default function ProductsUpload() {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="image"
+        >
           Product Image
         </label>
         <input

@@ -44,7 +44,7 @@ let gfs;
 conn.once('open', () => {
   // Initialize GridFS Stream
   gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('uploads'); // Specify the collection name for storing files
+  gfs.collection('uploads'); // Ensure this is the correct collection name
 });
 
 // Set up GridFS storage
@@ -158,8 +158,9 @@ app.get('/auth/google',
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
-  
   app.post('/uploadProduct', upload.single('file'), async (req, res) => {
+    console.log('Received file:', req.file); // Log the uploaded file
+  
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
@@ -186,7 +187,7 @@ app.get('/auth/google',
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
-    app.get('/files/:filename', (req, res) => {
+      app.get('/files/:filename', (req, res) => {
     gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
       if (!file || file.length === 0) {
         return res.status(404).json({ err: 'No file exists' });
