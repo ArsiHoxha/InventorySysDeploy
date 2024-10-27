@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -15,9 +14,8 @@ const ProductTable = ({ userId }) => {
       .catch(error => {
         console.error('Error fetching products:', error);
         window.location.href = '/'; // Redirect to home after logout
-
       });
-    }, []);
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -31,13 +29,12 @@ const ProductTable = ({ userId }) => {
       .catch(error => {
         console.error('Error logging out:', error);
         window.location.href = '/'; // Redirect to home after logout
-
       });
   };
 
   const handleRezervoClick = (productId) => {
     if (window.confirm('Are you sure you want to reserve this product?')) {
-      axios.post('https://inventorysysdeploy-2.onrender.com/reserve', { productId, userId },{withCredentials:true})
+      axios.post('https://inventorysysdeploy-2.onrender.com/reserve', { productId, userId }, { withCredentials: true })
         .then(response => {
           // Update the product quantity in the UI
           setProducts(products.map(product =>
@@ -51,7 +48,6 @@ const ProductTable = ({ userId }) => {
         .catch(error => {
           console.error('Error reserving product:', error);
           window.location.href = '/'; // Redirect to home after logout
-
         });
     }
   };
@@ -79,7 +75,7 @@ const ProductTable = ({ userId }) => {
             placeholder="Search products..."
             value={searchTerm}
             onChange={handleSearchChange}
-            class="mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+            className="mb-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
           />
           {successMessage && (
             <div className="mb-4 p-4 bg-green-100 text-green-700 border border-green-400 rounded">
@@ -89,9 +85,9 @@ const ProductTable = ({ userId }) => {
           {filteredProducts.length === 0 ? (
             <p className="text-center mt-8 text-gray-500">No products found.</p>
           ) : (
-            <div className="grid grid-cols-1 m-0; sm:grid-cols-1 md:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-6 gap-4">
               {filteredProducts.map((product, index) => (
-                <div key={index} className="bg-white  overflow-hidden rounded-lg shadow-lg">
+                <div key={index} className="bg-gray-900 text-white overflow-hidden rounded-lg shadow-lg">
                   <img
                     src={`https://inventorysysdeploy-2.onrender.com/uploads/${product.filename}`}
                     alt={product.productNameTxt}
@@ -99,7 +95,7 @@ const ProductTable = ({ userId }) => {
                   />
                   <div className="p-4">
                     <h2 className="text-lg font-bold">{product.productNameTxt}</h2>
-                    <p className="text-gray-700 dark:text-gray-900">{product.descriptionTxt}</p>
+                    <p className="text-gray-300">{product.descriptionTxt}</p>
                     <p className="mt-2 font-bold">Quantity: {product.priceTxt}</p>
                     <button
                       onClick={() => handleRezervoClick(product._id)}
@@ -114,8 +110,9 @@ const ProductTable = ({ userId }) => {
           )}
         </div>
       </main>
-      <footer className="w-full bg-gray-900 py-4 text-center text-white font-bold">
-        <p>&copy; {new Date().getFullYear()} Rrobotika Hf. All rights reserved.</p>
+      <footer className="w-full bg-gray-900 py-2 text-center text-gray-400 font-bold">
+        <p className="text-xs">&copy; {new Date().getFullYear()} Rrobotika Hf. All rights reserved.</p>
+        <p className="text-xs mt-1">Programmed by Arsi Hoxha | Hosted by Arben Kryemadhi</p>
       </footer>
     </div>
   );

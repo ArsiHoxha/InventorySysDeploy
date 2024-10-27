@@ -29,19 +29,19 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-800">
-      <header className="w-full bg-gray-900 py-2 text-white text-center">
-        <h1 className="text-2xl font-bold">Harry Fultz Robotics Inventory</h1>
-      </header>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900">
+<header className="w-full bg-gray-850 border-b border-gray-700 shadow-lg py-2 text-white text-center">
+  <h1 className="text-2xl font-bold text-gray-100">Harry Fultz Robotics Inventory</h1>
+</header>
       <main className="flex-1 flex flex-col items-center justify-center p-4 space-y-2">
         {!user ? (
           <div className="flex flex-col items-center justify-center space-y-2">
-            <p className="text-md text-center text-white font-bold">
+            <p className="text-md text-center text-gray-300">
               Reserve robotics equipment and stay organized for your projects.
             </p>
             <button
               onClick={handleLogin}
-              className="flex items-center dark:bg-gray-900 border font-bold border-gray-300 rounded-lg px-4 py-2 text-xs  text-gray-800 dark:text-white hover:bg-gray-800 focus:outline-none"
+              className="flex items-center bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-xs font-medium text-white hover:bg-gray-700 focus:outline-none"
               aria-label="Continue with Google"
             >
               <svg
@@ -65,12 +65,15 @@ function App() {
               </svg>
               <span>Continue with Google</span>
             </button>
+            <p className="text-xs text-center text-gray-500 max-w-xs">
+              <strong>Note for iOS users:</strong> If you’re using Safari, go to <strong>Settings &gt; Safari &gt; Privacy &amp; Security</strong> and disable <em>Prevent Cross-Site Tracking</em>. This will allow the app to authenticate properly.
+            </p>
           </div>
         ) : (
           <UserOrAdmin user={user} />
         )}
       </main>
-      <footer className="w-full bg-gray-900 py-2 text-center text-white font-bold">
+      <footer className="w-full bg-gray-900 py-2 text-center text-gray-400 font-bold">
         <p className="text-xs">&copy; {new Date().getFullYear()} Rrobotika Hf. All rights reserved.</p>
         <p className="text-xs mt-1">Programmed by Arsi Hoxha | Hosted by Arben Kryemadhi</p>
       </footer>
