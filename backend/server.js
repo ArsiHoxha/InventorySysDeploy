@@ -53,40 +53,6 @@ function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
 }
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-useNewUrlParser: true,
-useUnifiedTopology: true
-}).then(() => {
-console.log("MongoDB connected successfully");
-}).catch(err => {
-console.error("MongoDB connection error:", err);
-});
-
-// Initialize GridFS Stream
-let gfs;
-const conn = mongoose.connection;
-conn.once('open', () => {
-gfs = Grid(conn.db, mongoose.mongo);
-gfs.collection('uploads'); // Ensure this is the correct collection name
-});
-
-// Set up GridFS storage
-const storage = new GridFsStorage({
-url: process.env.MONGO_URI,
-file: (req, file) => {
-  return {
-    filename: file.originalname,
-    bucketName: 'uploads' // The name of the GridFS bucket
-  };
-}
-});
-
-// Create the multer upload object
-const upload = multer({ storage });
-
-
-
 app.get('/auth/google',
     passport.authenticate('google', { scope: ['email', 'profile'] })
   );
@@ -165,26 +131,20 @@ app.get('/auth/google',
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
-  app.post('/uploadProduct', upload.single('file'), async (req, res) => {
-    console.log('Received file:', req.file); // Log the uploaded file
+  app.post('/uploadProduct', async (req, res) => {
+    const { productName, price, description, imageUrl } = req.body; // Include imageUrl
   
-    if (!req.file) {
-      return res.status(400).json({ message: 'No file uploaded' });
+    if (!imageUrl) {
+      return res.status(400).json({ message: 'No image URL provided' });
     }
   
     try {
-      const { productName, price, description } = req.body;
-  
       const newProduct = new ProducMain({
         id: uuidv4(),
         productNameTxt: productName,
-        productImg: req.file.filename,
+        productImg: imageUrl, // Save the image URL
         priceTxt: price,
         descriptionTxt: description,
-        filename: req.file.filename,
-        originalname: req.file.originalname,
-        mimetype: req.file.mimetype,
-        size: req.file.size
       });
   
       await newProduct.save();
@@ -194,7 +154,7 @@ app.get('/auth/google',
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
-      app.get('/files/:filename', (req, res) => {
+        app.get('/files/:filename', (req, res) => {
     gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
       if (!file || file.length === 0) {
         return res.status(404).json({ err: 'No file exists' });

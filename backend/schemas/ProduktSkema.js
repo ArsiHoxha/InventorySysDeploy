@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const productSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true, default: uuidv4 },
   productNameTxt: { type: String, required: false },
-  productImg: { type: String, required: false },
+  productImg: { type: String, required: true }, // Change this to a String to store the image URL
   priceTxt: { type: String, required: false },
   descriptionTxt: { type: String, required: false },
   filename: { type: String, required: true },

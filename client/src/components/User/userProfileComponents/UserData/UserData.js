@@ -89,7 +89,7 @@ const ProductTable = ({ userId }) => {
               {filteredProducts.map((product) => (
                 <div key={product._id} className="bg-gray-900 text-white overflow-hidden rounded-lg shadow-lg">
                   <img
-                    src={`https://inventorysysdeploy-2.onrender.com/files/${product.filename}`} // Change to the GridFS endpoint
+                    src={product.productImg} // Use productImg URL directly from the database
                     alt={product.productNameTxt}
                     className="w-full h-60 object-cover"
                   />
@@ -97,7 +97,7 @@ const ProductTable = ({ userId }) => {
                     <h2 className="text-lg font-bold">{product.productNameTxt}</h2>
                     <p className="text-gray-300">{product.descriptionTxt}</p>
                     <p className="mt-2 font-bold">Price: {product.priceTxt}</p>
-                    <p className="mt-2 font-bold">Quantity: {product.quantity}</p> {/* Ensure quantity is displayed */}
+                    <p className="mt-2 font-bold">Quantity: {product.quantity || 0}</p> {/* Display 0 if quantity is not available */}
                     <button
                       onClick={() => handleRezervoClick(product._id)}
                       className="mt-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
