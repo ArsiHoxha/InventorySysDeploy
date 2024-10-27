@@ -6,45 +6,50 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require("multer");
 const { v4: uuidv4 } = require('uuid');
-const ProducMain = require("./schemas/ProduktSkema")
-const Reservation = require("./schemas/Rezervation")
-const User = require("./schemas/UserAuth")
+const ProducMain = require("./schemas/ProduktSkema");
+const Reservation = require("./schemas/Rezervation");
+const User = require("./schemas/UserAuth");
 const helmet = require('helmet'); // Import Helmet
 const mongoose = require('mongoose');
 const GridFsStorage = require('multer-gridfs-storage').GridFsStorage;
 const Grid = require('gridfs-stream');
-
 require('dotenv').config();
-require('./auth'); 
-require('./db');
-
+require('./db'); // Ensure this file contains your mongoose connection code
+require('./auth'); // Ensure this file contains your authentication setup
 
 const app = express();
 
+// Middleware setup
 app.use(cors({
   origin: "https://inventorysysdeploy-3-client.onrender.com",
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 
 app.set('trust proxy', true);
-
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-function isLogedIn(req, res, next) {
-    req.user ? next() :res.sendStatus(401)
+// User authentication check middleware
+function isLoggedIn(req, res, next) {
+    req.user ? next() : res.sendStatus(401);
 }
-const conn = mongoose.createConnection(process.env.MONGO_URI, {
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
+}).then(() => {
+  console.log("MongoDB connected successfully");
+}).catch(err => {
+  console.error("MongoDB connection error:", err);
 });
 
-// Initialize gfs
+// Initialize GridFS Stream
 let gfs;
+const conn = mongoose.connection;
 conn.once('open', () => {
-  // Initialize GridFS Stream
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection('uploads'); // Ensure this is the correct collection name
 });
