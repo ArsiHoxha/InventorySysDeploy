@@ -20,16 +20,18 @@ require('./db');
 
 
 const app = express();
-app.set('trust proxy', true);
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'client')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors({
   origin: "https://inventorysysdeploy-3-client.onrender.com",
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
   credentials: true
 }));
+
+app.set('trust proxy', true);
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'client')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 function isLogedIn(req, res, next) {
     req.user ? next() :res.sendStatus(401)
