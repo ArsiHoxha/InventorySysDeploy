@@ -31,44 +31,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// User authentication check middleware
-function isLoggedIn(req, res, next) {
-    req.user ? next() : res.sendStatus(401);
-}
-
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log("MongoDB connected successfully");
-}).catch(err => {
-  console.error("MongoDB connection error:", err);
-});
-
-// Initialize GridFS Stream
-let gfs;
-const conn = mongoose.connection;
-conn.once('open', () => {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('uploads'); // Ensure this is the correct collection name
-});
-
-// Set up GridFS storage
-const storage = new GridFsStorage({
-  url: process.env.MONGO_URI,
-  file: (req, file) => {
-    return {
-      filename: file.originalname,
-      bucketName: 'uploads' // The name of the GridFS bucket
-    };
-  }
-});
-
-// Create the multer upload object
-const upload = multer({ storage });
-
-
 
 // Serve static files from the uploads directory
 app.use('/uploads', express.static('uploads'));
@@ -86,6 +48,44 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+// User authentication check middleware
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
+useNewUrlParser: true,
+useUnifiedTopology: true
+}).then(() => {
+console.log("MongoDB connected successfully");
+}).catch(err => {
+console.error("MongoDB connection error:", err);
+});
+
+// Initialize GridFS Stream
+let gfs;
+const conn = mongoose.connection;
+conn.once('open', () => {
+gfs = Grid(conn.db, mongoose.mongo);
+gfs.collection('uploads'); // Ensure this is the correct collection name
+});
+
+// Set up GridFS storage
+const storage = new GridFsStorage({
+url: process.env.MONGO_URI,
+file: (req, file) => {
+  return {
+    filename: file.originalname,
+    bucketName: 'uploads' // The name of the GridFS bucket
+  };
+}
+});
+
+// Create the multer upload object
+const upload = multer({ storage });
+
+
 
 app.get('/auth/google',
     passport.authenticate('google', { scope: ['email', 'profile'] })

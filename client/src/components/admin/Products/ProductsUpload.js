@@ -62,6 +62,7 @@ export default function ProductsUpload() {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
+          credentials: 'include' // Important for session cookies
         }
       );
 
