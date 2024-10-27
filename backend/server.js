@@ -27,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'client')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors({
   origin: "https://inventorysysdeploy-3-client.onrender.com",
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
   credentials: true
 }));
 
