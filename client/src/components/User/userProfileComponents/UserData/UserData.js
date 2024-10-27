@@ -62,8 +62,8 @@ const ProductTable = ({ userId }) => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-700">
-      <header className="bg-gray-800 py-4 text-white text-center flex justify-around">
+    <div className="min-h-screen flex flex-col bg-gray-800">
+      <header className="bg-gray-900 py-4 text-white text-center flex justify-around">
         <h1 className="text-3xl font-bold">Rrobotika Hf</h1>
         <button
           onClick={handleLogout}
@@ -114,7 +114,7 @@ const ProductTable = ({ userId }) => {
           )}
         </div>
       </main>
-      <footer className="w-full bg-gray-800 py-4 text-center text-white font-bold">
+      <footer className="w-full bg-gray-900 py-4 text-center text-white font-bold">
         <p>&copy; {new Date().getFullYear()} Rrobotika Hf. All rights reserved.</p>
       </footer>
     </div>
