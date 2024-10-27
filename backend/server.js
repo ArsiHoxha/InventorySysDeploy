@@ -10,7 +10,10 @@ const ProducMain = require("./schemas/ProduktSkema")
 const Reservation = require("./schemas/Rezervation")
 const User = require("./schemas/UserAuth")
 const helmet = require('helmet'); // Import Helmet
-  
+const mongoose = require('mongoose');
+const GridFsStorage = require('multer-gridfs-storage').GridFsStorage;
+const Grid = require('gridfs-stream');
+
 require('dotenv').config();
 require('./auth'); 
 require('./db');
@@ -26,19 +29,34 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 function isLogedIn(req, res, next) {
     req.user ? next() :res.sendStatus(401)
 }
+const conn = mongoose.createConnection(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
+// Initialize gfs
+let gfs;
+conn.once('open', () => {
+  // Initialize GridFS Stream
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection('uploads'); // Specify the collection name for storing files
+});
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Ensure this directory exists
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + file.originalname;
-    cb(null, uniqueSuffix);
+// Set up GridFS storage
+const storage = new GridFsStorage({
+  url: process.env.MONGO_URI,
+  file: (req, file) => {
+    return {
+      filename: file.originalname,
+      bucketName: 'uploads' // The name of the GridFS bucket
+    };
   }
 });
 
-const upload = multer({ storage: storage });
+// Create the multer upload object
+const upload = multer({ storage });
+
+
 
 // Serve static files from the uploads directory
 app.use('/uploads', express.static('uploads'));
@@ -140,32 +158,42 @@ app.get('/auth/google',
     }
   });
   
-app.post('/uploadProduct', upload.single('file'), async (req, res) => {
-  try {
-    const { productName, price, description } = req.body;
-    const file = req.file;
-
-    const newProduct = new ProducMain({
-      id: uuidv4(),
-      productNameTxt: productName,
-      productImg: file.filename,
-      priceTxt: price,
-      descriptionTxt: description,
-      filename: file.filename,
-      path: file.path,
-      originalname: file.originalname,
-      mimetype: file.mimetype,
-      size: file.size
+  app.post('/uploadProduct', upload.single('file'), async (req, res) => {
+    try {
+      const { productName, price, description } = req.body;
+  
+      const newProduct = new ProducMain({
+        id: uuidv4(),
+        productNameTxt: productName,
+        productImg: req.file.filename, // Use the filename from GridFS
+        priceTxt: price,
+        descriptionTxt: description,
+        filename: req.file.filename,
+        path: req.file.path, // Note: The path may not be required as GridFS stores files in MongoDB
+        originalname: req.file.originalname,
+        mimetype: req.file.mimetype,
+        size: req.file.size
+      });
+  
+      await newProduct.save();
+      res.status(200).json({ message: 'Product uploaded successfully', newProduct });
+    } catch (error) {
+      console.error('Error uploading product:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  app.get('/files/:filename', (req, res) => {
+    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+      if (!file || file.length === 0) {
+        return res.status(404).json({ err: 'No file exists' });
+      }
+  
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
     });
-
-    await newProduct.save();
-    res.status(200).json({ message: 'Product uploaded successfully', newProduct });
-  } catch (error) {
-    console.error('Error uploading product:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
-app.get('/products', async (req, res) => {
+  });
+  
+  app.get('/products', async (req, res) => {
   try {
     const product = await ProducMain.find({});
     res.status(200).json(product);
