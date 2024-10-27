@@ -7,11 +7,27 @@ export default function ProductsUpload() {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [imageProfile, setImageProfile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   const handleInputChange = (setter) => (e) => setter(e.target.value);
-  const handleImageProductChange = (e) => setImageProfile(e.target.files[0]);
+  
+  const handleImageProductChange = (e) => {
+    const file = e.target.files[0];
+    setImageProfile(file);
+    
+    // Preview the image
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview('');
+    }
+  };
 
   const handlePostProduct = async (e) => {
     e.preventDefault();
@@ -24,12 +40,19 @@ export default function ProductsUpload() {
       return;
     }
 
+    // Validate price and quantity to be positive numbers
+    const numericPrice = parseFloat(price);
+    if (isNaN(numericPrice) || numericPrice <= 0) {
+      setError('Price must be a positive number.');
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append('productName', productName);
-      formData.append('price', price);
+      formData.append('price', numericPrice); // Store as number
       formData.append('description', description);
-      formData.append('category', category); // Include category in form data
+      formData.append('category', category);
       formData.append('file', imageProfile);
 
       const response = await axios.post(
@@ -50,11 +73,18 @@ export default function ProductsUpload() {
         setDescription('');
         setCategory('');
         setImageProfile(null);
+        setImagePreview('');
+        
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccess(''), 3000);
       }
     } catch (error) {
       setError(
         error.response ? error.response.data.message : 'Error uploading product.'
       );
+      
+      // Clear error message after 3 seconds
+      setTimeout(() => setError(''), 3000);
     }
   };
 
@@ -89,7 +119,7 @@ export default function ProductsUpload() {
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="price"
-          type="text"
+          type="number"
           placeholder="Enter quantity"
           value={price}
           onChange={handleInputChange(setPrice)}
@@ -141,6 +171,13 @@ export default function ProductsUpload() {
           onChange={handleImageProductChange}
           className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
+        {imagePreview && (
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="mt-2 w-full h-auto rounded"
+          />
+        )}
       </div>
       {error && <p className="text-red-500 text-xs italic">{error}</p>}
       {success && <p className="text-green-500 text-xs italic">{success}</p>}
