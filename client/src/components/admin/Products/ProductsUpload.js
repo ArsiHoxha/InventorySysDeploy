@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export default function ProductsUpload() {
   const [productName, setProductName] = useState('');
-  const [price, setPrice] = useState('');
+  const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [imageProfile, setImageProfile] = useState(null);
@@ -12,11 +12,11 @@ export default function ProductsUpload() {
   const [success, setSuccess] = useState('');
 
   const handleInputChange = (setter) => (e) => setter(e.target.value);
-  
+
   const handleImageProductChange = (e) => {
     const file = e.target.files[0];
     setImageProfile(file);
-    
+
     // Preview the image
     if (file) {
       const reader = new FileReader();
@@ -35,22 +35,22 @@ export default function ProductsUpload() {
     setSuccess('');
 
     // Basic validation
-    if (!productName || !price || !description || !category || !imageProfile) {
+    if (!productName || !quantity || !description || !category || !imageProfile) {
       setError('All fields are required.');
       return;
     }
 
-    // Validate price and quantity to be positive numbers
-    const numericPrice = parseFloat(price);
-    if (isNaN(numericPrice) || numericPrice <= 0) {
-      setError('Price must be a positive number.');
+    // Validate quantity to be a positive number
+    const numericQuantity = parseInt(quantity, 10);
+    if (isNaN(numericQuantity) || numericQuantity <= 0) {
+      setError('Quantity must be a positive number.');
       return;
     }
 
     try {
       const formData = new FormData();
       formData.append('productName', productName);
-      formData.append('price', numericPrice); // Store as number
+      formData.append('quantity', numericQuantity); // Store as number
       formData.append('description', description);
       formData.append('category', category);
       formData.append('file', imageProfile);
@@ -62,19 +62,14 @@ export default function ProductsUpload() {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-          credentials: 'include' // Important for session cookies
+          withCredentials: true, // Important for session cookies
         }
       );
 
       if (response.status === 200) {
         setSuccess('Product uploaded successfully.');
         // Clear the form
-        setProductName('');
-        setPrice('');
-        setDescription('');
-        setCategory('');
-        setImageProfile(null);
-        setImagePreview('');
+        resetForm();
         
         // Clear success message after 3 seconds
         setTimeout(() => setSuccess(''), 3000);
@@ -89,16 +84,22 @@ export default function ProductsUpload() {
     }
   };
 
+  const resetForm = () => {
+    setProductName('');
+    setQuantity('');
+    setDescription('');
+    setCategory('');
+    setImageProfile(null);
+    setImagePreview('');
+  };
+
   return (
     <form
       className="mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       onSubmit={handlePostProduct}
     >
       <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="productName"
-        >
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="productName">
           Product Name
         </label>
         <input
@@ -111,26 +112,20 @@ export default function ProductsUpload() {
         />
       </div>
       <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="price"
-        >
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="quantity">
           Quantity
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="price"
+          id="quantity"
           type="number"
           placeholder="Enter quantity"
-          value={price}
-          onChange={handleInputChange(setPrice)}
+          value={quantity}
+          onChange={handleInputChange(setQuantity)}
         />
       </div>
       <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="description"
-        >
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
           Description
         </label>
         <textarea
@@ -142,10 +137,7 @@ export default function ProductsUpload() {
         />
       </div>
       <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="category"
-        >
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
           Category
         </label>
         <input
@@ -158,10 +150,7 @@ export default function ProductsUpload() {
         />
       </div>
       <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="image"
-        >
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
           Product Image
         </label>
         <input
