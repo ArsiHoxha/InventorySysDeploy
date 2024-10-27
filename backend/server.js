@@ -10,11 +10,7 @@ const ProducMain = require("./schemas/ProduktSkema")
 const Reservation = require("./schemas/Rezervation")
 const User = require("./schemas/UserAuth")
 const helmet = require('helmet'); // Import Helmet
-const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
-
-
-
+  
 require('dotenv').config();
 require('./auth'); 
 require('./db');
@@ -25,36 +21,27 @@ app.set('trust proxy', true);
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 function isLogedIn(req, res, next) {
     req.user ? next() :res.sendStatus(401)
 }
 
 
-const mongoURI = process.env.MONGODB_URI; // Ensure your MongoDB URI is in your .env
-
-// Create a mongo connection
-const conn = mongoose.createConnection(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-// Init gfs
-let gfs;
-conn.once('open', () => {
-    gfs = Grid(conn.db, mongoose.mongo);
-    gfs.collection('uploads'); // Set collection name
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Ensure this directory exists
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + file.originalname;
+    cb(null, uniqueSuffix);
+  }
 });
 
-// Set up GridFS storage
-const storage = new GridFsStorage({
-    url: mongoURI,
-    file: (req, file) => {
-        return {
-            filename: file.originalname,
-            bucketName: 'uploads' // Set the name of the bucket
-        };
-    }
-});
+const upload = multer({ storage: storage });
 
-const upload = multer({ storage });
+// Serve static files from the uploads directory
+app.use('/uploads', express.static('uploads'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
@@ -153,48 +140,31 @@ app.get('/auth/google',
     }
   });
   
-  app.post('/uploadProduct', upload.single('file'), async (req, res) => {
-    try {
-        const { productName, price, description } = req.body;
-        const file = req.file;
+app.post('/uploadProduct', upload.single('file'), async (req, res) => {
+  try {
+    const { productName, price, description } = req.body;
+    const file = req.file;
 
-        const newProduct = new ProducMain({
-            id: uuidv4(),
-            productNameTxt: productName,
-            productImg: file.filename, // This will still refer to the filename in MongoDB
-            priceTxt: price,
-            descriptionTxt: description,
-            filename: file.filename,
-            mimetype: file.mimetype,
-            size: file.size
-        });
-
-        await newProduct.save();
-        res.status(200).json({ message: 'Product uploaded successfully', newProduct });
-    } catch (error) {
-        console.error('Error uploading product:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
-
-// Route to get the uploaded file
-app.get('/file/:id', (req, res) => {
-    gfs.files.findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, (err, file) => {
-        if (!file || file.length === 0) {
-            return res.status(404).json({ err: 'No file exists' });
-        }
-
-        // Check if the file is an image
-        if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
-            // Create a read stream for the file
-            const readstream = gfs.createReadStream(file._id);
-            readstream.pipe(res);
-        } else {
-            res.status(404).json({ err: 'Not an image' });
-        }
+    const newProduct = new ProducMain({
+      id: uuidv4(),
+      productNameTxt: productName,
+      productImg: file.filename,
+      priceTxt: price,
+      descriptionTxt: description,
+      filename: file.filename,
+      path: file.path,
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      size: file.size
     });
-});
 
+    await newProduct.save();
+    res.status(200).json({ message: 'Product uploaded successfully', newProduct });
+  } catch (error) {
+    console.error('Error uploading product:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 app.get('/products', async (req, res) => {
   try {
     const product = await ProducMain.find({});
